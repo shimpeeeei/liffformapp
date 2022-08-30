@@ -1,0 +1,102 @@
+<html>
+	<head>
+	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css">
+	</head>
+	    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	    <title>テスト18稼働報告</title>
+	    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rossorigin="anonymous">
+	    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<body>
+	
+
+	    <form class="w-75 mx-auto">         
+	        <p class="mt-3"><b><big>日付</big></B></p>
+	            <input type="date" name="date" / required>
+	        
+	        <p class="mt-3"><b><big>名前</big></B></p>
+	        <div>
+	            <input class="form-control w-50 mt-1" name="name" autocomplete="name" / required>
+	        </div>
+	        <p class="mt-3"><b><big>稼働内容</big></B></p>
+	        <div>
+	        <input class="form-control w-50 mt-1" name="kadou" / required>
+	        </div>
+	        <p class="mt-3"><b><big>開始時刻</big></B></p>
+	        <input type="time" name="time1" / required>
+	
+
+	        <p class="mt-3"><b><big>終了時刻</big></B></p>
+	        <input type="time" name="time2" / required>
+	        
+	        <p class="mt-3"><b><big>走行距離</big></B>km</p>
+	        <div>
+	            <input class="form-control w-50 mt-1" name="soukou" input type="number">
+	        </div>
+	        <p class="mt-3"><b><big>備考欄</big></B></p>
+	        <div>
+	            <input class="form-control w-50 mt-1" name="bikou">
+	        </div>
+	        <input type="submit" class="mt-4 btn-primary btn-lg" value="送信">
+	    </form>
+	
+
+	    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+	    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+	    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+	    <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
+	    <script>
+	
+
+	        $(document).ready(function () {
+	            const liffId = "1657313644-O24pVWNe";
+	            initializeLiff(liffId);
+	        })
+	
+
+	        function initializeLiff(liffId) {
+	            liff.init({
+	                liffId: liffId
+	            }).then(() => {
+	                initializeApp();
+	            }).catch((err) => {
+	                console.log('LIFF Initialization failed ', err);
+	            });
+	        }
+	
+
+	        function sendText(text) {
+	            liff.sendMessages([{
+	                'type': 'text',
+	                'text': text
+	            }]).then(function () {
+	                liff.closeWindow();
+	            }).catch(function (error) {
+	                window.alert('Failed to send message ' + error);
+	            });
+	        }
+	
+
+	        const params = (new URL(document.location)).searchParams;
+	        const key = params.get('key');
+	
+
+	        $(function () {
+	            $('form').submit(function () {
+	                const date    = $('input[name="date"]').val();
+	                const name    = $('input[name="name"]').val();
+	                const kadou = $('input[name="kadou"]').val();
+	                const time1  = $('input[name="time1"]').val();
+	                const time2  = $('input[name="time2"]').val();
+	                const soukou = $('input[name="soukou"]').val();
+	                const bikou = $('input[name="bikou"]').val();
+	                const msg = `${date}\n${name}\n${kadou}\n${time1}\n${time2}\n${soukou}\n${bikou}`;
+	                sendText(msg);
+	                return false;
+	            });
+	        });
+	    </script>
+	</body>
+	</html>
+
